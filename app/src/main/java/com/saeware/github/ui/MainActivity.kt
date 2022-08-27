@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var rvUser: RecyclerView
     private lateinit var userListAdapter: UserListAdapter
-    private val listAll = ArrayList<User>()
     private val list = ArrayList<User>()
+    private val listAll = ArrayList<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +30,10 @@ class MainActivity : AppCompatActivity() {
         rvUser = binding.rvUser
         rvUser.setHasFixedSize(true)
 
-        listAll.addAll(userList)
         list.addAll(userList)
-        showListUser()
+        listAll.addAll(userList)
+
+        showUserList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -41,23 +42,22 @@ class MainActivity : AppCompatActivity() {
         val searchView = menu.findItem(R.id.search_action)?.actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(text: String?): Boolean = false
+            override fun onQueryTextSubmit(keyword: String?): Boolean = false
 
-            override fun onQueryTextChange(text: String?): Boolean {
-                if (text.isNullOrEmpty()) {
-                    userListAdapter.setUserList(listAll)
-                } else {
-                    val query = text.lowercase()
-                    val users = listAll.filter { it.name.lowercase().contains(query) }
-                    val newUserList = ArrayList<User>()
-
-                    newUserList.addAll(users)
-                    userListAdapter.setUserList(newUserList)
-                }
-
-                return true
-            }
+            override fun onQueryTextChange(keyword: String?): Boolean = handleSearch(keyword)
         })
+
+        return true
+    }
+
+    private fun handleSearch(keyword: String?): Boolean {
+        if (!keyword.isNullOrEmpty()) {
+            val users = listAll.filter { it.name.lowercase().contains(keyword.lowercase()) }
+            val newUserList = ArrayList<User>()
+
+            newUserList.addAll(users)
+            userListAdapter.setUserList(newUserList)
+        } else userListAdapter.setUserList(listAll)
 
         return true
     }
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             return userList
         }
 
-    private fun showListUser() {
+    private fun showUserList() {
         userListAdapter = UserListAdapter(list)
 
         rvUser.layoutManager =
