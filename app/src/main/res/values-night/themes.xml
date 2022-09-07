@@ -19,10 +19,6 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/gray_300</item>
     </style>
-    <style name="TextCard.Subtitle">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gray_400</item>
-    </style>
     <style name="TextProfile.Name">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/gray_300</item>
@@ -58,6 +54,25 @@
         <item name="android:maxLines">2</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="drawableTint">@color/gray_400</item>
+    </style>
+    <style name="TextProfile.Bio">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray_400</item>
+    </style>
+    <style name="TextStatus.Text">
+        <item name="android:textColor">@color/gray_400</item>
+    </style>
+
+    <style name="TextError.Text">
+        <item name="android:textColor">@color/gray_400</item>
+    </style>
+    <style name="ProgressBarColor">
+        <item name="android:indeterminateTint">@color/gray_300</item>
+    </style>
+    <style name="CustomTab" parent="Widget.Design.TabLayout">
+        <item name="tabTextColor">@color/gray_400</item>
+        <item name="tabIndicatorColor">@color/gray_400</item>
+        <item name="tabSelectedTextColor">@color/gray_300</item>
     </style>
     <style name="CustomButton">
         <item name="android:textColor">@color/gray_300</item>

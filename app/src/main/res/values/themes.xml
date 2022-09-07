@@ -27,10 +27,6 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/gray_800</item>
     </style>
-    <style name="TextCard.Subtitle">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gray_700</item>
-    </style>
     <style name="TextProfile">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -70,6 +66,50 @@
         <item name="android:maxLines">2</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="drawableTint">@color/gray_700</item>
+    </style>
+    <style name="TextProfile.Bio">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray_700</item>
+    </style>
+    <style name="TextStatus">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+    <style name="TextStatus.Text">
+        <item name="android:textColor">@color/gray_700</item>
+    </style>
+    <style name="TextResult">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextError">
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="TextError.Text">
+        <item name="android:textColor">@color/gray_700</item>
+    </style>
+    <style name="ProgressBarColor">
+        <item name="android:indeterminateTint">@color/gray_800</item>
+    </style>
+    <style name="CustomTab"  parent="Widget.Design.TabLayout">
+        <item name="tabTextColor">@color/gray_700</item>
+        <item name="tabIndicatorColor">@color/gray_700</item>
+        <item name="tabSelectedTextColor">@color/gray_800</item>
+    </style>
+    <style name="CustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
     </style>
     <style name="CustomButton">
         <item name="android:textColor">@color/gray_100</item>
