@@ -1,4 +1,4 @@
-package com.saeware.github.ui
+package com.saeware.github.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
