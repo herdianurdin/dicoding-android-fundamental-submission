@@ -1,58 +1,34 @@
 package com.saeware.github.ui.activity
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.saeware.github.BuildConfig
-import com.saeware.github.model.ResponseSearch
-import com.saeware.github.model.User
-import com.saeware.github.service.ApiConfig
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.*
+import com.saeware.github.data.GithubRepository
+import com.saeware.github.data.Result
+import com.saeware.github.data.remote.response.User
+import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel() {
-    private val _loading = MutableLiveData(true)
-    val loading: LiveData<Boolean> = _loading
+class MainViewModel(private val githubRepository: GithubRepository) : ViewModel() {
+    private val _users = MutableLiveData<Result<ArrayList<User>>>(Result.Loading)
+    val users: LiveData<Result<ArrayList<User>>> = _users
 
-    private val _error = MutableLiveData(false)
-    val error: LiveData<Boolean> = _error
-
-    private val _users = MutableLiveData<ArrayList<User>>()
-    val users: LiveData<ArrayList<User>> = _users
+    private val hasShownError = MutableLiveData(false)
 
     init { searchUserByUsername() }
 
+    fun getDarkModeSetting(): LiveData<Boolean> =
+        githubRepository.getDarkModeSetting().asLiveData()
+
     fun searchUserByUsername(query: String = "\"\"") {
-        _loading.value = true
-
-        ApiConfig.getApiService().searchUserByUsername(token = BuildConfig.API_KEY, query).apply {
-            enqueue(object : Callback<ResponseSearch> {
-                override fun onResponse(
-                    call: Call<ResponseSearch>,
-                    response: Response<ResponseSearch>
-                ) {
-                    if (response.isSuccessful) _users.value = response.body()?.items
-                    else Log.e(TAG, "onFailure: ${response.message()}")
-
-                    _loading.value = false
-                    _error.value = false
-                }
-
-                override fun onFailure(call: Call<ResponseSearch>, t: Throwable) {
-                    Log.e(TAG, "onFailure: ${t.message.toString()}")
-
-                    _users.value = arrayListOf()
-                    _loading.value = false
-                    _error.value = true
-                }
-
-            })
+        _users.value = Result.Loading
+        viewModelScope.launch {
+            githubRepository.searchUserByUsername(query).collect { _users.value = it }
         }
+        hasShownError.value = false
     }
 
-    companion object {
-        private val TAG = MainViewModel::class.java.simpleName
+    fun showErrorOccurred(showError: () -> Unit) {
+        if (!hasShownError.value!!) {
+            showError()
+            hasShownError.value = true
+        }
     }
 }

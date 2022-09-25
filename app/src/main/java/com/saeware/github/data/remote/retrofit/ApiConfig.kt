@@ -1,6 +1,7 @@
-package com.saeware.github.service
+package com.saeware.github.data.remote.retrofit
 
-import com.saeware.github.BuildConfig
+import com.saeware.github.BuildConfig.DEBUG
+import com.saeware.github.BuildConfig.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,7 +11,7 @@ class ApiConfig {
     companion object {
         fun getApiService(): ApiService {
             val loggingInterceptor =
-                if (BuildConfig.DEBUG) HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+                if (DEBUG) HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
                 else HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
 
             val client = OkHttpClient.Builder()
@@ -18,7 +19,7 @@ class ApiConfig {
                 .build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

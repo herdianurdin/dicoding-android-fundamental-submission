@@ -1,4 +1,4 @@
-package com.saeware.github.model
+package com.saeware.github.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
