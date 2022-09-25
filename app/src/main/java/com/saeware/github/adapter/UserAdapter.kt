@@ -3,17 +3,21 @@ package com.saeware.github.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.saeware.github.data.remote.response.User
 import com.saeware.github.databinding.UserCardBinding
-import com.saeware.github.model.User
-import com.saeware.github.utils.ViewAttribute.Companion.setImage
+import com.saeware.github.utils.UIHelper.Companion.setImage
 
-class UserAdapter(private var users: ArrayList<User>): RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
+class UserAdapter(private val users: ArrayList<User>)
+    : RecyclerView.Adapter<UserAdapter.ListViewHolder>()
+{
     private lateinit var onItemClickCallBack: OnItemClickCallBack
 
     class ListViewHolder(var binding: UserCardBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val binding = UserCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = UserCardBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return ListViewHolder(binding)
     }
 

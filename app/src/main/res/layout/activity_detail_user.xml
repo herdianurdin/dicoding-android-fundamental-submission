@@ -14,7 +14,6 @@
         android:background="@color/transparent">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -78,7 +77,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/cl_identity">
 
                     <androidx.constraintlayout.helper.widget.Flow
-                        android:id="@+id/flow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:constraint_referenced_ids="cl_repository, cl_followers, cl_following"
@@ -201,8 +199,8 @@
                         tools:text="@string/dummy_location" />
 
                     <TextView
-                        android:id="@+id/tv_blog"
                         style="@style/TextProfile.Information"
+                        android:id="@+id/tv_blog"
                         android:layout_marginTop="8dp"
                         app:drawableStartCompat="@drawable/ic_baseline_blog"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -213,8 +211,8 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
-                    android:id="@+id/btn_open"
                     style="@style/CustomButton"
+                    android:id="@+id/btn_open"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -258,6 +256,16 @@
         style="@style/ProgressBarColor"
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/CustomFloatingActionButton"
+        android:id="@+id/fab_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_baseline_favorite_border"
+        android:contentDescription="@string/favorites" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

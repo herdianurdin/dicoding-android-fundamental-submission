@@ -7,7 +7,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.saeware.github.ui.fragment.FollowersFragment
 import com.saeware.github.ui.fragment.FollowingFragment
 
-class SectionsPagerAdapter(activity: AppCompatActivity, private val username: String) : FragmentStateAdapter(activity) {
+class SectionsPagerAdapter(activity: AppCompatActivity, private val username: String)
+    : FragmentStateAdapter(activity)
+{
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment = when(position) {

@@ -17,4 +17,10 @@
     <string name="showing_results">Showing %d results.</string>
     <string name="error_occurred">An error has occurred!</string>
     <string name="error_cant_connect_to_api">An error occurred, unable to connect to the API.</string>
+    <string name="favorites">Favorites</string>
+    <string name="settings">Settings</string>
+    <string name="theme">Theme</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="remove_as_favorite">User deleted as favorite.</string>
+    <string name="add_as_favorite">Uses added as favorite.</string>
 </resources>

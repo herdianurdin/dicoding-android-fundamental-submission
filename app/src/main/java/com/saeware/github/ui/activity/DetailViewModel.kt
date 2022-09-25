@@ -1,54 +1,51 @@
 package com.saeware.github.ui.activity
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.saeware.github.BuildConfig
-import com.saeware.github.model.DetailUser
-import com.saeware.github.service.ApiConfig
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.*
+import com.saeware.github.data.GithubRepository
+import com.saeware.github.data.Result
+import com.saeware.github.data.local.entity.UserEntity
+import com.saeware.github.data.remote.response.DetailUser
+import kotlinx.coroutines.launch
 
-class DetailViewModel : ViewModel() {
-    private val _loading = MutableLiveData(true)
-    val loading: LiveData<Boolean> = _loading
-
-    private val _error = MutableLiveData(false)
-    val error: LiveData<Boolean> = _error
-
+class DetailViewModel(private val githubRepository: GithubRepository) : ViewModel() {
     private val _hasLoaded = MutableLiveData(false)
     val hasLoaded: LiveData<Boolean> = _hasLoaded
 
-    private val _user = MutableLiveData<DetailUser?>()
-    val user: LiveData<DetailUser?> = _user
+    private val _user = MutableLiveData<Result<DetailUser>>(Result.Loading)
+    val user: LiveData<Result<DetailUser>> = _user
+
+    private val _isFavoriteUser = MutableLiveData(false)
+    val isFavoriteUser: LiveData<Boolean> = _isFavoriteUser
+
+    private val hasShownError = MutableLiveData(false)
 
     fun getUserDetail(username: String) {
-        _loading.value = true
+        viewModelScope.launch {
+            githubRepository.getUserDetail(username).collect { _user.value = it }
+        }
+
+        hasShownError.value = false
         _hasLoaded.value = true
+    }
 
-        ApiConfig.getApiService().getUserDetail(token = BuildConfig.API_KEY, username).apply {
-            enqueue(object : Callback<DetailUser> {
-                override fun onResponse(call: Call<DetailUser>, response: Response<DetailUser>) {
-                    if (response.isSuccessful) _user.value = response.body()
-                    else Log.e(TAG, "onFailure: ${response.message()}")
-
-                    _loading.value = false
-                    _error.value = false
-                }
-
-                override fun onFailure(call: Call<DetailUser>, t: Throwable) {
-                    Log.e(TAG, "onFailure: ${t.message.toString()}")
-
-                    _loading.value = false
-                    _error.value = true
-                }
-            })
+    fun isFavoriteUser(username: String) {
+        viewModelScope.launch {
+            githubRepository.isFavoriteUser(username).collect { _isFavoriteUser.value = it }
         }
     }
 
-    companion object {
-        private val TAG = DetailViewModel::class.java.simpleName
+    fun addUserAsFavorite(userEntity: UserEntity) {
+        viewModelScope.launch { githubRepository.addUserAsFavorite(userEntity) }
+    }
+
+    fun removeUserFromFavorite(userEntity: UserEntity) {
+        viewModelScope.launch { githubRepository.removeUserFromFavorite(userEntity) }
+    }
+
+    fun showErrorOccurred(showError: () -> Unit) {
+        if (!hasShownError.value!!) {
+            showError()
+            hasShownError.value = true
+        }
     }
 }
