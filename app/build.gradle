@@ -16,11 +16,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        def properties = new Properties()
-        properties.load(new FileInputStream(rootProject.file("local.properties")))
-
-        buildConfigField("String", "API_KEY", "\"Bearer ${properties['API_KEY']}\"")
-        buildConfigField("String", "BASE_URL", "\"${properties["BASE_URL"]}\"")
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+            }
+        }
     }
 
     buildTypes {
@@ -40,6 +40,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.18.1'
+        }
     }
 }
 

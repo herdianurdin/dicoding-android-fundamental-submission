@@ -1,7 +1,7 @@
 package com.saeware.github.data
 
 import android.util.Log
-import com.saeware.github.BuildConfig.API_KEY
+import com.saeware.github.config.Config
 import com.saeware.github.data.local.entity.UserEntity
 import com.saeware.github.data.local.room.UserDao
 import com.saeware.github.data.remote.response.DetailUser
@@ -20,7 +20,7 @@ class GithubRepository private constructor(
         EspressoIdlingResource.increment()
         emit(Result.Loading)
         try {
-            val users = apiService.searchUserByUsername(token = API_KEY, query).items
+            val users = apiService.searchUserByUsername(token = apiKey, query).items
             emit(Result.Success(users))
         } catch (e: Exception) {
             Log.d(TAG, "searchUserByUsername: ${e.message.toString()}")
@@ -32,7 +32,7 @@ class GithubRepository private constructor(
         EspressoIdlingResource.increment()
         emit(Result.Loading)
         try {
-            val user = apiService.getUserDetail(token = API_KEY, username)
+            val user = apiService.getUserDetail(token = apiKey, username)
             emit(Result.Success(user))
         } catch (e: Exception) {
             Log.d(TAG, "getUserDetail: ${e.message.toString()}")
@@ -44,7 +44,7 @@ class GithubRepository private constructor(
         EspressoIdlingResource.increment()
         emit(Result.Loading)
         try {
-            val followers = apiService.getUserFollowers(token = API_KEY, username)
+            val followers = apiService.getUserFollowers(token = apiKey, username)
             emit(Result.Success(followers))
         } catch (e: Exception) {
             Log.d(TAG, "getUserFollowers: ${e.message.toString()}")
@@ -56,7 +56,7 @@ class GithubRepository private constructor(
         EspressoIdlingResource.increment()
         emit(Result.Loading)
         try {
-            val following = apiService.getUserFollowing(token = API_KEY, username)
+            val following = apiService.getUserFollowing(token = apiKey, username)
             emit(Result.Success(following))
         } catch (e: Exception) {
             Log.d(TAG, "getUserFollowing: ${e.message.toString()}")
@@ -78,6 +78,7 @@ class GithubRepository private constructor(
 
     companion object {
         private val TAG = GithubRepository::class.java.simpleName
+        private val apiKey = Config.apiKey()
 
         @Volatile
         private var instance: GithubRepository? = null

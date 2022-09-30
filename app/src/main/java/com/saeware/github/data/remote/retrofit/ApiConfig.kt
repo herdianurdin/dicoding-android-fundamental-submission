@@ -1,7 +1,7 @@
 package com.saeware.github.data.remote.retrofit
 
 import com.saeware.github.BuildConfig.DEBUG
-import com.saeware.github.BuildConfig.BASE_URL
+import com.saeware.github.config.Config
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,6 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
     companion object {
+        private val baseUrl = Config.baseUrl()
+
         fun getApiService(): ApiService {
             val loggingInterceptor =
                 if (DEBUG) HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -19,7 +21,7 @@ class ApiConfig {
                 .build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
